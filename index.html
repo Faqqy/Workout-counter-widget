@@ -1,0 +1,62 @@
+﻿ <!DOCTYPE html>
+ <html lang="ru">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <link rel="stylesheet" href="https://unpkg.com/primitive-ui/dist/css/main.css" />
+ </head>
+ <body>
+    <div class="small-container">
+        <h3>Тренировок за сегодня <span id="workoutsАorToday" style="color: red;"></span></h3>
+        <h3>Пробных тренировок <span id="trialWorkouts" style="color: red;"></span></h3>
+    </div>
+	<script>
+          "use strict"
+
+           const date = new Date(),
+                 myDay = date.getDay();
+		      
+           let rand,
+               clientLocalHour = date.getHours(),
+               timeFrom = 9,
+               timeTo = 21,
+               firstId = document.getElementById('workoutsАorToday'),
+               secondId = document.getElementById('trialWorkouts');
+
+		function workouts(min, max) {
+		  rand = Math.floor(Math.random() * (max - min) + min);
+		  return rand;
+		}
+
+		if (localStorage.getItem('countWorkdayTrening' || 'countWorkdayTrialTrening' || 'countWeekendTrening' || 'countWeekendTrialTrening') === null) {
+		    localStorage.setItem('countWorkdayTrening', workouts(10, 20));
+		    localStorage.setItem('countWorkdayTrialTrening', workouts(5, 10));
+		    localStorage.setItem('countWeekendTrening', workouts(1, 9));
+		    localStorage.setItem('countWeekendTrialTrening', workouts(1, 3));
+		}
+
+		function recalculationOfData() {
+		  if (clientLocalHour >= timeFrom && clientLocalHour <= timeTo) {
+		    if (myDay === 1 || myDay === 2 || myDay === 3 || myDay === 4 || myDay === 5)  {
+
+		      firstId.innerHTML = localStorage.getItem('countWorkdayTrening');
+		      secondId.innerHTML = localStorage.getItem('countWorkdayTrialTrening');
+		       
+		    } else if (myDay === 0 || myDay === 6){
+
+		      firstId.innerHTML = localStorage.getItem('countWeekendTrening');
+		      secondId.innerHTML = localStorage.getItem('countWeekendTrialTrening');
+		      
+		    }
+		  } else {
+		    localStorage.clear();
+		    firstId.innerHTML = 0;
+		    secondId.innerHTML = 0;
+		  }
+		};
+
+		recalculationOfData();
+        </script>
+ </body>
+ </html>
